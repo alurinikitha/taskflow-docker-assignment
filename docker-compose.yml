@@ -1,0 +1,29 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    image: docker-task-manager-backend:1.0
+    container_name: task-manager-backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_PATH: /data/tasks.db
+    volumes:
+      - task_data:/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:8000
+    image: docker-task-manager-frontend:1.0
+    container_name: task-manager-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  task_data:
