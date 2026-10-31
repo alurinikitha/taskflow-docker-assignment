@@ -1,7 +1,7 @@
-from contextlib import asynccontextmanager
-from pathlib import Path
 import os
 import sqlite3
+from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -93,4 +93,3 @@ def delete_task(task_id: int):
         cursor = conn.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
         if cursor.rowcount == 0:
             raise HTTPException(status_code=404, detail="Task not found.")
-    return None
